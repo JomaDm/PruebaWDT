@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Tabla</title>
+	</head>
+	<body>
+		<div id="root"></div>
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+			body {
+				font-family: 'Roboto', sans-serif;
+			}
+			table,
+			th,
+			tr,
+			td {
+				border: 1px solid RGBA(122, 174, 221);
+				border-collapse: collapse;
+			}
+			table {
+				table-layout: fixed;
+			}
+			td {
+				word-wrap: break-word;
+				padding: 0.5rem;
+				background-color: rgba(222, 234, 246);
+			}
+			.table-header {
+				background-color: RGBA(91, 155, 213);
+				color: white;
+				font-weight: bold;
+			}
+			.reprobado {
+				background-color: red;
+				color: black;
+			}
+		</style>
+		<script type="text/javascript">
+			// 4.- Dado el siguiente arreglo:
+			let alumnos = [
+				{
+					nombre: 'Jesús',
+					apellidoP: 'Paniagua',
+					apellidoM: 'Hernández',
+					parcial1: 6,
+					parcial2: 5,
+					parcial3: 10,
+				},
+				{
+					nombre: 'Mauricio',
+					apellidoP: 'Salgado',
+					apellidoM: 'Flores',
+					parcial1: 8,
+					parcial2: 10,
+					parcial3: 9,
+				},
+				{
+					nombre: 'Diana',
+					apellidoP: 'Lopez',
+					apellidoM: 'García',
+					parcial1: 6,
+					parcial2: 5,
+					parcial3: 0,
+				},
+			];
+			// A) Escriba el código en javascript para que construya la siguiente tabla, resalta la fila en color
+			//    rojo de los alumnos con promedio reprobatorio (menor a 6):
+
+			let borderColor = 'RGBA(91, 155, 213)';
+			let root = document.getElementById('root');
+			let table = document.createElement('table');
+			let trHeaders = document.createElement('tr');
+			let trSubheaders = document.createElement('tr');
+
+			let thNombre = document.createElement('th');
+			thNombre.setAttribute('colspan', '3');
+			thNombre.className = 'table-header';
+			thNombre.innerHTML = 'Nombre';
+			trHeaders.appendChild(thNombre);
+
+			let thCalf = document.createElement('th');
+			thCalf.setAttribute('colspan', '4');
+			thCalf.className = 'table-header';
+			thCalf.innerHTML = 'Calificaciones';
+			trHeaders.appendChild(thCalf);
+
+			let thNombreSub = document.createElement('td');
+			thNombreSub.innerHTML = 'Nombre';
+			trSubheaders.appendChild(thNombreSub);
+
+			let thApellidoP = document.createElement('td');
+			thApellidoP.innerHTML = 'Apellido Paterno';
+			trSubheaders.appendChild(thApellidoP);
+
+			let thApellidoM = document.createElement('td');
+			thApellidoM.innerHTML = 'Apellido Materno';
+			trSubheaders.appendChild(thApellidoM);
+
+			let Parcial1 = document.createElement('td');
+			Parcial1.innerHTML = 'Parcial 1';
+			trSubheaders.appendChild(Parcial1);
+
+			let Parcial2 = document.createElement('td');
+			Parcial2.innerHTML = 'Parcial 2';
+			trSubheaders.appendChild(Parcial2);
+
+			let Parcial3 = document.createElement('td');
+			Parcial3.innerHTML = 'Parcial 3';
+			trSubheaders.appendChild(Parcial3);
+
+			let Final = document.createElement('td');
+			Final.innerHTML = 'Final';
+			trSubheaders.appendChild(Final);
+
+			table.appendChild(trHeaders);
+			table.appendChild(trSubheaders);
+			for (alumno of alumnos) {
+				let fila = document.createElement('tr');
+				let warning = false;
+				Object.values(alumno).forEach((valor) =>
+					Number.isInteger(valor) && valor < 6 ? (warning = true) : null
+				);
+
+				for (atributos of Object.entries(alumno)) {
+					let celda = document.createElement('td');
+					celda.innerHTML = atributos[1];
+					celda.className = warning ? 'reprobado' : '';
+					fila.appendChild(celda);
+				}
+
+				let promedio =
+					(alumno.parcial1 + alumno.parcial2 + alumno.parcial3) / 3;
+				let celda = document.createElement('td');
+				celda.innerHTML = promedio.toFixed(2);
+				celda.className = warning ? 'reprobado' : '';
+				fila.appendChild(celda);
+
+				table.appendChild(fila);
+			}
+
+			root.appendChild(table);
+		</script>
+	</body>
+</html>
